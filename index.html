@@ -164,7 +164,6 @@ canvas{width:100%;border-radius:12px;border:2px solid rgba(255,215,0,.5);cursor:
           <input type="text" id="clue-code" placeholder="1234" maxlength="4" style="text-align:center;font-size:1.3rem;letter-spacing:6px;margin-bottom:0;flex:1" oninput="this.value=this.value.replace(/\D/g,'').slice(0,4)">
           <button class="btn btn-b sm" style="width:auto;padding:10px 14px;flex-shrink:0" onclick="genCode()" title="Generate random code">🎲 Auto</button>
         </div>
-        <div id="code-hint" style="color:rgba(255,215,0,.7);font-family:'Nunito',sans-serif;font-size:.75rem;font-weight:800;margin-top:5px;display:none">🔒 Remember this code — give it to the kid after they find the spot!</div>
       </div>
       <button class="btn btn-o" style="margin-bottom:14px" onclick="addClue()">+ Add Clue</button>
 
@@ -475,8 +474,6 @@ function playAgain() { if (lastId) startHunt(lastId); else go('s-home'); }
 function genCode() {
   const code = String(Math.floor(1000 + Math.random() * 9000));
   document.getElementById('clue-code').value = code;
-  document.getElementById('code-hint').style.display = 'block';
-  document.getElementById('code-hint').textContent = '🔒 Code is ' + code + ' — write it down and give to the kid after they find the spot!';
 }
 
 function confetti() {
