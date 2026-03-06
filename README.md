@@ -31,15 +31,6 @@ Give it a try at https://lucysee.github.io/treasureHunt/
 - 💾 Hunts saved locally in your browser
 - 📱 Works on phone, tablet and desktop
 
-## 🛠️ Setup
-
-No install needed! Just open `index.html` in any browser.
-
-To host on GitHub Pages:
-1. Fork or upload this repo
-2. Go to **Settings → Pages**
-3. Set source to **main branch**
-4. Your app will be live at `https://YOUR-USERNAME.github.io/treasure-hunt`
 
 ## 📝 Notes
 
