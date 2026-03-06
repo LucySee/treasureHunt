@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Fredoka+One&family=Nunito:wght@700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-style:normal!important}
+body{font-family:'Fredoka One',cursive;background:linear-gradient(180deg,#87ceeb 0%,#c9eaff 58%,#7ec87e 58%,#4a9e4a 100%);min-height:100vh;padding:20px 14px 80px;display:flex;flex-direction:column;align-items:center;scroll-behavior:smooth;-webkit-overflow-scrolling:touch}
+.cloud{position:fixed;background:#fff;border-radius:50px;opacity:.8;pointer-events:none}
+.cloud:before,.cloud:after{content:'';position:absolute;background:#fff;border-radius:50%}
+.c1{width:120px;height:40px;top:7%;left:5%;animation:drift 18s linear infinite}
+.c1:before{width:60px;height:60px;top:-30px;left:18px}.c1:after{width:45px;height:45px;top:-20px;left:58px}
+.c2{width:90px;height:30px;top:13%;right:8%;animation:drift 24s linear infinite reverse}
+.c2:before{width:45px;height:45px;top:-25px;left:12px}.c2:after{width:35px;height:35px;top:-17px;left:48px}
+@keyframes drift{from{transform:translateX(-180px)}to{transform:translateX(180px)}}
+.grass{position:fixed;bottom:0;left:0;right:0;height:64px;background:linear-gradient(#5cb85c,#3e8b3e);border-radius:50% 50% 0 0/16px 16px 0 0;border-top:4px solid #6dcc6d;z-index:0}
+.scr{display:none;position:relative;z-index:10;width:100%;max-width:420px;flex-direction:column;align-items:center}
+.scr.on{display:flex}
+.logo{background:linear-gradient(135deg,#8B4513,#D2691E,#8B4513);border-radius:20px;padding:14px 36px;border:5px solid #ffd700;box-shadow:0 7px 0 #5a2d0c,0 12px 30px rgba(0,0,0,.45);transform:rotate(-2deg);position:relative;text-align:center;margin-bottom:28px}
+.logo:after{content:'📜';position:absolute;top:-22px;right:-18px;font-size:2.2rem;transform:rotate(15deg)}
+.logo h1{font-size:3rem!important;line-height:1.1;color:#ffd700;text-shadow:3px 3px 0 #8B4513,5px 5px 0 rgba(0,0,0,.4);font-family:'Black Han Sans',sans-serif;letter-spacing:3px!important}
+.btn{font-family:'Fredoka One',cursive;font-size:1.15rem;border:none;border-radius:14px;padding:13px 22px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;width:100%;transition:transform .1s,box-shadow .1s;margin-bottom:12px}
+.btn:active{transform:translateY(5px)!important;box-shadow:none!important}
+.btn-g{background:linear-gradient(180deg,#6dcc6d,#4a9e4a);color:#fff;box-shadow:0 5px 0 #2e6b2e}
+.btn-o{background:linear-gradient(180deg,#ffb84d,#e07b00);color:#fff;box-shadow:0 5px 0 #a05500}
+.btn-b{background:linear-gradient(180deg,#4fc3f7,#0288d1);color:#fff;box-shadow:0 5px 0 #01579b}
+.btn-y{background:linear-gradient(180deg,#ffd740,#f9a825);color:#5a3a00;box-shadow:0 5px 0 #b37a00}
+.btn-gr{background:linear-gradient(180deg,#9e9e9e,#616161);color:#fff;box-shadow:0 5px 0 #333}
+.sm{font-size:.95rem;padding:10px 16px;margin-bottom:0}
+.brow{display:flex;gap:10px;width:100%;margin-top:10px}
+.brow .btn{margin-bottom:0}
+.panel{background:linear-gradient(160deg,#1565c0,#1976d2);border-radius:24px;width:100%;box-shadow:0 12px 40px rgba(0,0,0,.4);border:4px solid #5bc8ff;overflow:hidden}
+.phead{background:#0d47a1;padding:13px 18px;display:flex;align-items:center;gap:10px;border-bottom:3px solid rgba(255,255,255,.12)}
+.phead h2{color:#fff;font-size:1.3rem;font-family:'Black Han Sans',sans-serif;letter-spacing:2px}
+.backbtn{background:none;border:none;color:rgba(255,255,255,.75);font-family:'Fredoka One',cursive;font-size:1rem;cursor:pointer}
+.pbody{padding:16px}
+.lbl{display:block;color:#b3e5fc;font-size:.78rem;text-transform:uppercase;letter-spacing:.6px;margin-bottom:5px;font-family:'Nunito',sans-serif;font-weight:800}
+input[type=text],textarea{width:100%;padding:10px 14px;border-radius:10px;border:2px solid rgba(255,255,255,.2);background:rgba(255,255,255,.12);color:#fff;font-family:'Nunito',sans-serif;font-size:1rem;font-weight:700;outline:none;margin-bottom:12px}
+input[type=text]::placeholder,textarea::placeholder{color:rgba(255,255,255,.35)}
+textarea{resize:none;height:68px}
+/* draw toolbar */
+.toolbar{display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap;align-items:center}
+.col-dot{width:28px;height:28px;border-radius:50%;cursor:pointer;border:3px solid transparent;flex-shrink:0}
+.col-dot.sel{border-color:#fff;transform:scale(1.2)}
+.tbtn{background:rgba(255,255,255,.12);border:2px solid rgba(255,255,255,.25);border-radius:8px;color:#fff;font-family:'Fredoka One',cursive;font-size:.8rem;padding:4px 10px;cursor:pointer}
+.tbtn.sel{background:rgba(255,215,0,.2);border-color:#ffd700;color:#ffd700}
+.tbtn.esel{background:rgba(255,80,80,.2);border-color:#ff6b6b;color:#ff6b6b}
+canvas{width:100%;border-radius:12px;border:2px solid rgba(255,215,0,.5);cursor:crosshair;display:block;touch-action:none;background:#fff}
+/* clue list */
+.clist{max-height:160px;overflow-y:auto;margin-bottom:14px}
+.citem{background:rgba(255,255,255,.1);border-radius:12px;padding:10px 12px;margin-bottom:7px;display:flex;gap:10px;border:2px solid rgba(255,255,255,.12);align-items:flex-start}
+.cnum{background:#ffd700;color:#5a3a00;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:.9rem}
+.ccon{flex:1;min-width:0}
+.cthumb{width:100%;max-height:70px;object-fit:contain;border-radius:7px;margin-bottom:5px;display:block;background:#f5f5f5}
+.ctxt{color:#fff;font-family:'Nunito',sans-serif;font-weight:700;font-size:.88rem;word-break:break-word}
+.cbadge{background:rgba(255,215,0,.2);color:#ffd700;font-size:.78rem;padding:2px 8px;border-radius:6px;border:1px solid rgba(255,215,0,.35);margin-top:3px;display:inline-block}
+.cdel{background:none;border:none;color:#ff6b6b;cursor:pointer;font-size:1rem;flex-shrink:0}
+.empty{color:rgba(255,255,255,.4);font-family:'Nunito',sans-serif;font-weight:700;text-align:center;padding:16px 0}
+/* progress */
+.pgwrap{background:rgba(0,0,0,.3);border-radius:20px;height:16px;overflow:hidden;border:2px solid rgba(255,255,255,.1);margin-bottom:4px}
+.pgbar{height:100%;background:linear-gradient(90deg,#ffd700,#ff9800);border-radius:20px;transition:width .5s ease}
+.pgtxt{color:rgba(255,255,255,.6);font-family:'Nunito',sans-serif;font-weight:800;font-size:.78rem;text-align:center;margin-bottom:14px}
+/* clue card */
+.card{background:linear-gradient(135deg,#fff9e6,#fff3cd);border-radius:16px;overflow:hidden;margin-bottom:16px;border:3px solid #ffd700;box-shadow:0 4px 0 #b37a00}
+.card img{width:100%;max-height:200px;object-fit:contain;display:block;background:#fff}
+.cardbody{padding:14px;text-align:center}
+.cardbody p{font-family:'Nunito',sans-serif;font-weight:800;color:#5a3a00;font-size:1rem;line-height:1.55}
+/* numpad */
+.codedisp{display:flex;gap:8px;justify-content:center;margin-bottom:12px}
+.digit{width:50px;height:58px;border-radius:10px;border:2px solid rgba(255,255,255,.25);background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:1.9rem;color:#ffd700;transition:border .2s}
+.digit.filled{border-color:#ffd700;background:rgba(255,215,0,.15)}
+.numpad{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:8px}
+.nkey{background:linear-gradient(180deg,rgba(255,255,255,.2),rgba(255,255,255,.08));border:2px solid rgba(255,255,255,.2);border-radius:10px;padding:13px;font-family:'Fredoka One',cursive;font-size:1.3rem;color:#fff;cursor:pointer}
+.nkey:active{background:rgba(255,255,255,.35)}
+.nrow{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+/* hunt list */
+.hlist{max-height:380px;overflow-y:auto}
+.hitem{background:rgba(255,255,255,.1);border-radius:12px;padding:14px;margin-bottom:9px;display:flex;align-items:center;gap:10px;border:2px solid rgba(255,255,255,.12)}
+.hinfo{flex:1}
+.hname{color:#fff;font-size:1.05rem}
+.hmeta{color:rgba(255,255,255,.5);font-family:'Nunito',sans-serif;font-weight:700;font-size:.78rem;margin-top:2px}
+.hact{background:none;border-radius:8px;padding:7px 11px;cursor:pointer;font-size:1rem;border:2px solid}
+.hplay{border-color:#4fc3f7;color:#4fc3f7}
+.hdel{border-color:#ff6b6b;color:#ff6b6b}
+.hsel{cursor:pointer}.hsel:hover{background:rgba(255,255,255,.2)!important;border-color:#ffd700!important}
+/* win */
+.win-chest-wrap{position:relative;display:flex;justify-content:center;align-items:center;margin:10px 0}
+.win-glow{position:absolute;width:140px;height:140px;border-radius:50%;background:radial-gradient(circle,rgba(255,215,0,.6),rgba(255,150,0,.2),transparent 70%);animation:glowpulse 1s ease-in-out infinite alternate}
+@keyframes glowpulse{from{transform:scale(.9);opacity:.7}to{transform:scale(1.2);opacity:1}}
+.win-emojis{font-size:2rem;letter-spacing:4px;animation:emojiwave 1.2s ease-in-out infinite alternate;margin-bottom:6px;display:block}
+@keyframes emojiwave{from{transform:scale(1) rotate(-3deg)}to{transform:scale(1.1) rotate(3deg)}}
+.win-emojis2{font-size:1.5rem;letter-spacing:2px;animation:emojiwave2 1.5s ease-in-out infinite alternate;margin-top:8px;display:block}
+@keyframes emojiwave2{from{transform:translateY(0)}to{transform:translateY(-6px)}}
+.winchest{font-size:7rem;animation:bnc .5s ease infinite alternate;display:block;text-align:center;filter:drop-shadow(0 0 20px rgba(255,215,0,.8))}
+@keyframes bnc{from{transform:translateY(0) scale(1)}to{transform:translateY(-16px) scale(1.08)}}
+@keyframes titlepop{0%{transform:scale(0.5);opacity:0}70%{transform:scale(1.1)}100%{transform:scale(1);opacity:1}}
+.winstars{color:#ffd700;font-size:1.6rem;letter-spacing:5px;text-align:center;margin:4px 0}
+.wintitle{font-size:2.8rem;line-height:1.15;text-align:center;color:#ffd700;-webkit-text-fill-color:#ffd700;background:none;-webkit-background-clip:unset;text-shadow:-3px -3px 0 #7a3e00,3px -3px 0 #7a3e00,-3px 3px 0 #7a3e00,3px 3px 0 #7a3e00,0 4px 0 #7a3e00,4px 4px 12px rgba(0,0,0,.6);margin-bottom:8px;animation:titlepop .5s ease;font-family:'Black Han Sans',sans-serif;letter-spacing:2px}
+.winsub{color:#b3e5fc;font-family:'Nunito',sans-serif;font-weight:800;font-size:.95rem;text-align:center;margin-bottom:20px}
+.confpiece{position:fixed;top:-20px;pointer-events:none;animation:fall linear infinite;z-index:50}
+@keyframes fall{0%{transform:translateY(-20px) rotate(0deg);opacity:1}100%{transform:translateY(110vh) rotate(720deg);opacity:0}}
+.shake{animation:shk .4s ease}
+@keyframes shk{0%,100%{transform:translateX(0)}20%{transform:translateX(-9px)}60%{transform:translateX(9px)}}
+#toast{position:fixed;top:16px;left:50%;transform:translateX(-50%) translateY(-80px);background:#1b5e20;color:#fff;font-family:'Fredoka One',cursive;font-size:1rem;padding:10px 24px;border-radius:50px;box-shadow:0 4px 20px rgba(0,0,0,.4);border:2px solid #43a047;z-index:999;transition:transform .3s;white-space:nowrap}
+#toast.show{transform:translateX(-50%) translateY(0)}
+#toast.err{background:#b71c1c;border-color:#e53935}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:rgba(255,255,255,.05)}::-webkit-scrollbar-thumb{background:rgba(255,255,255,.3);border-radius:4px}
+</style>
+</head>
+<body>
+<div class="cloud c1"></div>
+<div class="cloud c2"></div>
+<div class="grass"></div>
+<div id="toast"></div>
+
+<!-- HOME -->
+<div class="scr on" id="s-home">
+  <div class="logo"><h1 style="font-family:'Black Han Sans',sans-serif;letter-spacing:3px;font-size:3rem;font-style:normal">🏴‍☠️ Treasure<br>Hunt! 🗺️</h1></div>
+  <div style="width:100%;max-width:300px">
+    <button class="btn btn-g" onclick="go('s-create')" style="font-family:'Black Han Sans',sans-serif;font-size:1.3rem;letter-spacing:2px">🎨 Create Hunt</button>
+    <button class="btn btn-o" onclick="go('s-manage')" style="font-family:'Black Han Sans',sans-serif;font-size:1.3rem;letter-spacing:2px">🔐 Clues &amp; Codes</button>
+    <button class="btn btn-b" onclick="openSelect()" style="font-family:'Black Han Sans',sans-serif;font-size:1.3rem;letter-spacing:2px">🎮 Start Hunt</button>
+  </div>
+</div>
+
+<!-- CREATE -->
+<div class="scr" id="s-create">
+  <div class="panel">
+    <div class="phead"><button class="backbtn" onclick="go('s-home')">◀ Back</button><h2>✏️ Create Hunt</h2></div>
+    <div class="pbody">
+      <span class="lbl">Hunt Name</span>
+      <input type="text" id="hunt-name" placeholder="e.g. Dragon's Secret Hunt">
+      <span class="lbl">Clue Text</span>
+      <textarea id="clue-text" placeholder="e.g. Look under the big blue pillow!"></textarea>
+
+      <span class="lbl">🎨 Draw a Clue Hint <span style="color:rgba(255,255,255,.4);text-transform:none;font-size:.72rem">(optional)</span></span>
+      <div class="toolbar">
+        <div class="col-dot sel" id="c-blk" style="background:#111" onclick="pickColor('#111','c-blk')"></div>
+        <div class="col-dot" id="c-red" style="background:#e53935" onclick="pickColor('#e53935','c-red')"></div>
+        <div class="col-dot" id="c-blu" style="background:#1e88e5" onclick="pickColor('#1e88e5','c-blu')"></div>
+        <div class="col-dot" id="c-grn" style="background:#43a047" onclick="pickColor('#43a047','c-grn')"></div>
+        <div class="col-dot" id="c-org" style="background:#fb8c00" onclick="pickColor('#fb8c00','c-org')"></div>
+        <div style="flex:1"></div>
+        <button class="tbtn sel" id="sz-s" onclick="pickSize(3,'sz-s')">S</button>
+        <button class="tbtn" id="sz-m" onclick="pickSize(8,'sz-m')">M</button>
+        <button class="tbtn" id="sz-l" onclick="pickSize(16,'sz-l')">L</button>
+        <button class="tbtn" id="erase-btn" onclick="toggleErase()">⬜ Erase</button>
+        <button class="tbtn" style="color:#ff9090;border-color:rgba(255,100,100,.4)" onclick="clearCanvas()">🗑 Clear</button>
+      </div>
+      <canvas id="draw-canvas" height="180"></canvas>
+      <div style="color:rgba(255,255,255,.4);font-family:'Nunito',sans-serif;font-size:.72rem;font-weight:700;text-align:center;margin:5px 0 14px">Draw a hint map for the treasure hunter 🗺️</div>
+
+      <div style="background:rgba(255,215,0,.12);border:2px solid rgba(255,215,0,.35);border-radius:12px;padding:10px 14px;margin-bottom:14px;display:flex;gap:10px;align-items:flex-start">
+        <span style="font-size:1.4rem;flex-shrink:0">💡</span>
+        <div style="font-family:'Nunito',sans-serif;font-size:.82rem;font-weight:700;color:rgba(255,255,255,.85);line-height:1.6">
+          <strong style="color:#ffd700;display:block;margin-bottom:2px">How it works:</strong>
+          Write the secret code on a piece of paper and hide it at the clue location. The kid must find the hiding spot to discover the code and unlock the next clue!
+        </div>
+      </div>
+      <div style="margin-bottom:14px">
+        <span class="lbl">Secret Code (4 digits)</span>
+        <div style="display:flex;gap:8px;align-items:center">
+          <input type="text" id="clue-code" placeholder="1234" maxlength="4" style="text-align:center;font-size:1.3rem;letter-spacing:6px;margin-bottom:0;flex:1" oninput="this.value=this.value.replace(/\D/g,'').slice(0,4)">
+          <button class="btn btn-b sm" style="width:auto;padding:10px 14px;flex-shrink:0" onclick="genCode()" title="Generate random code">🎲 Auto</button>
+        </div>
+        <div id="code-hint" style="color:rgba(255,215,0,.7);font-family:'Nunito',sans-serif;font-size:.75rem;font-weight:800;margin-top:5px;display:none">🔒 Remember this code — give it to the kid after they find the spot!</div>
+      </div>
+      <button class="btn btn-o" style="margin-bottom:14px" onclick="addClue()">+ Add Clue</button>
+
+      <span class="lbl">Clues Added: <span id="clue-count">0</span></span>
+      <div class="clist" id="clue-list"><div class="empty">No clues yet — add one above! 👆</div></div>
+      <div class="brow">
+        <button class="btn btn-gr sm" style="flex:1" onclick="resetCreate()">🗑 Clear All</button>
+        <button class="btn btn-y sm" style="flex:2" onclick="saveHunt()">💾 Save Hunt</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MANAGE -->
+<div class="scr" id="s-manage">
+  <div class="panel">
+    <div class="phead"><button class="backbtn" onclick="go('s-home')">◀ Back</button><h2>🔐 Clues &amp; Codes</h2></div>
+    <div class="pbody"><div class="hlist" id="manage-list"></div></div>
+  </div>
+</div>
+
+<!-- SELECT -->
+<div class="scr" id="s-select">
+  <div class="panel">
+    <div class="phead"><button class="backbtn" onclick="go('s-home')">◀ Back</button><h2>🎮 Pick a Hunt!</h2></div>
+    <div class="pbody"><div class="hlist" id="select-list"></div></div>
+  </div>
+</div>
+
+<!-- PLAY -->
+<div class="scr" id="s-play">
+  <div class="panel">
+    <div class="phead"><button class="backbtn" onclick="go('s-home')">◀ Back</button><h2 id="play-title">🗺️ Hunt</h2></div>
+    <div class="pbody">
+      <div class="pgwrap"><div class="pgbar" id="prog-bar" style="width:0%"></div></div>
+      <div class="pgtxt" id="prog-text">Clue 1 of 1</div>
+      <div class="card" id="play-card"></div>
+      <div style="text-align:center">
+        <div style="font-size:1.05rem;color:#fff;margin-bottom:10px">🔐 Enter the Secret Code:</div>
+        <div class="codedisp" id="code-display">
+          <div class="digit" id="d0"></div><div class="digit" id="d1"></div>
+          <div class="digit" id="d2"></div><div class="digit" id="d3"></div>
+        </div>
+        <div class="numpad">
+          <button class="nkey" onclick="pressNum('1')">1</button><button class="nkey" onclick="pressNum('2')">2</button><button class="nkey" onclick="pressNum('3')">3</button>
+          <button class="nkey" onclick="pressNum('4')">4</button><button class="nkey" onclick="pressNum('5')">5</button><button class="nkey" onclick="pressNum('6')">6</button>
+          <button class="nkey" onclick="pressNum('7')">7</button><button class="nkey" onclick="pressNum('8')">8</button><button class="nkey" onclick="pressNum('9')">9</button>
+        </div>
+        <div class="nrow">
+          <button class="nkey" onclick="clearCode()">⌫ Clear</button>
+          <button class="nkey" onclick="pressNum('0')">0</button>
+        </div>
+        <button class="btn btn-b" onclick="unlockCode()">🔓 Unlock!</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- WIN -->
+<div class="scr" id="s-win" style="gap:0;text-align:center;padding:20px 16px">
+  <div class="win-emojis" id="win-emojis">🎉🏆🎊</div>
+  <div class="win-chest-wrap">
+    <div class="win-glow"></div>
+    <div class="winchest">🎁</div>
+  </div>
+  <div class="wintitle">YOU FOUND<br>THE TREASURE!</div>
+  <div class="winstars">⭐⭐⭐⭐⭐</div>
+  <div class="winsub" id="win-msg"></div>
+  <div class="win-emojis2">🦁🎈🍭🎠🌈🦄🎶🎀</div>
+  <div class="brow" style="max-width:300px;margin-top:16px">
+    <button class="btn btn-g sm" onclick="playAgain()">▶ Play Again</button>
+    <button class="btn btn-b sm" onclick="go('s-home')">🏠 Home</button>
+  </div>
+</div>
+
+<script>
+// ── Canvas ────────────────────────────────────────────────────
+const cv = document.getElementById('draw-canvas');
+const cx = cv.getContext('2d');
+let drawing = false, penColor = '#111', penSize = 3, erasing = false;
+
+function initCanvas() { cv.width = cv.offsetWidth; }
+window.addEventListener('load', initCanvas);
+
+function pos(e) {
+  const r = cv.getBoundingClientRect();
+  const sx = cv.width / r.width, sy = cv.height / r.height;
+  const src = e.touches ? e.touches[0] : e;
+  return { x: (src.clientX - r.left) * sx, y: (src.clientY - r.top) * sy };
+}
+function startDraw(e) { drawing = true; const p = pos(e); cx.beginPath(); cx.moveTo(p.x, p.y); }
+function doDraw(e) {
+  if (!drawing) return;
+  e.preventDefault();
+  const p = pos(e);
+  cx.lineWidth = erasing ? penSize * 5 : penSize;
+  cx.lineCap = 'round'; cx.lineJoin = 'round';
+  cx.strokeStyle = erasing ? '#fff' : penColor;
+  cx.lineTo(p.x, p.y); cx.stroke();
+  cx.beginPath(); cx.moveTo(p.x, p.y);
+}
+function endDraw() { drawing = false; }
+cv.addEventListener('mousedown', startDraw);
+cv.addEventListener('mousemove', doDraw);
+cv.addEventListener('mouseup', endDraw);
+cv.addEventListener('mouseleave', endDraw);
+cv.addEventListener('touchstart', startDraw, {passive:true});
+cv.addEventListener('touchmove', doDraw, {passive:false});
+cv.addEventListener('touchend', endDraw);
+
+function pickColor(c, id) {
+  penColor = c; erasing = false;
+  document.querySelectorAll('.col-dot').forEach(d => d.classList.remove('sel'));
+  document.getElementById(id).classList.add('sel');
+  document.getElementById('erase-btn').classList.remove('esel');
+}
+function pickSize(s, id) {
+  penSize = s;
+  document.querySelectorAll('[id^="sz-"]').forEach(b => b.classList.remove('sel'));
+  document.getElementById(id).classList.add('sel');
+}
+function toggleErase() {
+  erasing = !erasing;
+  document.getElementById('erase-btn').classList.toggle('esel', erasing);
+  if (erasing) document.querySelectorAll('.col-dot').forEach(d => d.classList.remove('sel'));
+}
+function clearCanvas() { cx.clearRect(0, 0, cv.width, cv.height); }
+function getDrawing() {
+  const d = cx.getImageData(0, 0, cv.width, cv.height).data;
+  return d.some(v => v !== 0) ? cv.toDataURL('image/png') : null;
+}
+
+// ── State ─────────────────────────────────────────────────────
+let hunts = [], tempClues = [], activeHunt = null, activeIdx = 0, code = '', lastId = null;
+try { const s = localStorage.getItem('th_v6'); if (s) hunts = JSON.parse(s); } catch(e) {}
+if (!hunts.length) {
+  hunts = [{ id:1, name:"Pirate's Adventure", created:"Demo", clues:[
+    {text:"I have legs but cannot walk. I hold your snacks when you talk. Find me in the living room!", code:"1234", image:null},
+    {text:"I keep things cold and fresh! Open me up in the kitchen!", code:"5678", image:null},
+    {text:"Soft and fluffy, I am on your bed. Look under me!", code:"9012", image:null}
+  ]}];
+  save();
+}
+function save() { try { localStorage.setItem('th_v6', JSON.stringify(hunts)); } catch(e) {} }
+
+function go(s) {
+  document.querySelectorAll('.scr').forEach(el => el.classList.remove('on'));
+  document.getElementById(s).classList.add('on');
+  if (s === 's-manage') renderManage();
+  if (s === 's-create') setTimeout(() => { cv.width = cv.offsetWidth; }, 60);
+  window.scrollTo(0,0);
+}
+
+let tt;
+function toast(msg, err=false) {
+  const el = document.getElementById('toast');
+  el.textContent = msg; el.className = 'show' + (err ? ' err' : '');
+  clearTimeout(tt); tt = setTimeout(() => el.className = '', 2500);
+}
+
+function addClue() {
+  const text = document.getElementById('clue-text').value.trim();
+  const c = document.getElementById('clue-code').value.trim();
+  const img = getDrawing();
+  if (!text && !img) return toast('Write a clue or draw a hint!', true);
+  if (!/^\d{1,4}$/.test(c)) return toast('Code must be 1-4 digits!', true);
+  tempClues.push({ text, code: c.padStart(4,'0'), image: img });
+  document.getElementById('clue-text').value = '';
+  document.getElementById('clue-code').value = '';
+  clearCanvas();
+  renderClues();
+  toast('Clue added! ✅');
+}
+
+function renderClues() {
+  const el = document.getElementById('clue-list');
+  document.getElementById('clue-count').textContent = tempClues.length;
+  if (!tempClues.length) { el.innerHTML = '<div class="empty">No clues yet — add one above! 👆</div>'; return; }
+  el.innerHTML = tempClues.map((c,i) => `
+    <div class="citem">
+      <div class="cnum">${i+1}</div>
+      <div class="ccon">
+        ${c.image ? `<img class="cthumb" src="${c.image}">` : ''}
+        <div class="ctxt">${c.text || '<em style="opacity:.5">Drawing clue</em>'}</div>
+        <span class="cbadge">Code: ${c.code}</span>
+      </div>
+      <button class="cdel" onclick="removeClue(${i})">✕</button>
+    </div>`).join('');
+}
+
+function removeClue(i) { tempClues.splice(i,1); renderClues(); }
+
+function resetCreate() {
+  tempClues = [];
+  document.getElementById('hunt-name').value = '';
+  document.getElementById('clue-text').value = '';
+  document.getElementById('clue-code').value = '';
+  clearCanvas(); renderClues();
+}
+
+function saveHunt() {
+  const name = document.getElementById('hunt-name').value.trim();
+  if (!name) return toast('Give your hunt a name!', true);
+  if (!tempClues.length) return toast('Add at least one clue!', true);
+  hunts.push({ id: Date.now(), name, clues: [...tempClues], created: new Date().toLocaleDateString() });
+  save(); toast('Hunt saved! 🎉'); resetCreate();
+  setTimeout(() => go('s-home'), 600);
+}
+
+function renderManage() {
+  const el = document.getElementById('manage-list');
+  if (!hunts.length) { el.innerHTML = '<div class="empty">No hunts yet. Create one!</div>'; return; }
+  el.innerHTML = hunts.map(h => `
+    <div class="hitem" style="flex-direction:column;align-items:stretch;gap:10px">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span style="font-size:1.4rem">🗺️</span>
+        <div class="hinfo"><div class="hname">${h.name}</div><div class="hmeta">${h.clues.length} clue${h.clues.length!==1?'s':''} · ${h.created}</div></div>
+        <button class="hact hdel" onclick="deleteHunt(${h.id})">🗑</button>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:7px">
+        ${h.clues.map((c,i) => `
+          <div style="background:rgba(0,0,0,.2);border-radius:10px;padding:10px 12px;display:flex;align-items:center;gap:10px">
+            <div style="background:#ffd700;color:#5a3a00;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0;font-family:'Fredoka One',cursive">${i+1}</div>
+            <div style="flex:1;min-width:0">
+              ${c.image ? `<img src="${c.image}" style="width:100%;max-height:60px;object-fit:contain;border-radius:7px;background:#fff;display:block;margin-bottom:5px">` : ''}
+              <div style="color:#fff;font-family:'Nunito',sans-serif;font-weight:700;font-size:.85rem;word-break:break-word">${c.text || '<em style="opacity:.5">Drawing clue</em>'}</div>
+            </div>
+            <div style="background:rgba(255,215,0,.2);border:2px solid rgba(255,215,0,.5);border-radius:8px;padding:6px 10px;text-align:center;flex-shrink:0">
+              <div style="color:rgba(255,255,255,.5);font-family:'Nunito',sans-serif;font-size:.65rem;font-weight:800;text-transform:uppercase;letter-spacing:.5px">Code</div>
+              <div style="color:#ffd700;font-family:'Fredoka One',cursive;font-size:1.2rem;letter-spacing:3px">${c.code}</div>
+            </div>
+          </div>`).join('')}
+      </div>
+    </div>`).join('');
+}
+
+function deleteHunt(id) { hunts = hunts.filter(h => h.id !== id); save(); renderManage(); toast('Deleted.'); }
+
+function openSelect() {
+  if (!hunts.length) return toast('Create a hunt first!', true);
+  document.getElementById('select-list').innerHTML = hunts.map(h => `
+    <div class="hitem hsel" onclick="startHunt(${h.id})">
+      <span style="font-size:1.6rem">🗺️</span>
+      <div class="hinfo"><div class="hname">${h.name}</div><div class="hmeta">${h.clues.length} clues</div></div>
+      <span style="color:#ffd700;font-size:1.3rem">▶</span>
+    </div>`).join('');
+  go('s-select');
+}
+
+function startHunt(id) {
+  activeHunt = hunts.find(h => h.id === id);
+  if (!activeHunt) return;
+  lastId = id; activeIdx = 0;
+  loadClue(); go('s-play');
+}
+
+function loadClue() {
+  const clue = activeHunt.clues[activeIdx];
+  const total = activeHunt.clues.length;
+  document.getElementById('play-title').textContent = '🗺️ ' + activeHunt.name;
+  document.getElementById('prog-bar').style.width = ((activeIdx/total)*100) + '%';
+  document.getElementById('prog-text').textContent = `Clue ${activeIdx+1} of ${total}`;
+  let h = '';
+  if (clue.image) h += `<img src="${clue.image}" style="width:100%;max-height:200px;object-fit:contain;display:block;background:#fff">`;
+  h += `<div class="cardbody">`;
+  if (!clue.image) h += `<div style="font-size:1.8rem;margin-bottom:8px">🗺️</div>`;
+  h += clue.text ? `<p>${clue.text}</p>` : `<p style="color:#8a6500;font-size:.9rem">Look at the drawing above! 🔍</p>`;
+  h += '</div>';
+  document.getElementById('play-card').innerHTML = h;
+  clearCode();
+}
+
+function pressNum(n) { if (code.length < 4) { code += n; updateDisp(); } }
+function clearCode() { code = ''; updateDisp(); }
+function updateDisp() {
+  for (let i=0;i<4;i++) {
+    const el = document.getElementById('d'+i);
+    el.textContent = code[i] || '';
+    el.classList.toggle('filled', !!code[i]);
+  }
+}
+function unlockCode() {
+  if (code.length < 4) return toast('Enter all 4 digits!', true);
+  if (code === activeHunt.clues[activeIdx].code) {
+    activeIdx++;
+    if (activeIdx >= activeHunt.clues.length) showWin();
+    else { toast('✅ Correct! Next clue!'); loadClue(); }
+  } else {
+    const d = document.getElementById('code-display');
+    d.classList.add('shake'); setTimeout(() => d.classList.remove('shake'), 500);
+    toast('Wrong code! Try again!', true); clearCode();
+  }
+}
+function showWin() {
+  document.getElementById('win-msg').textContent = `Amazing! You completed "${activeHunt.name}" with all ${activeHunt.clues.length} clues! 🏆`;
+  confetti();
+  go('s-win');
+  // Animate emoji burst
+  const emojis = ['🎉','🏆','🎊','🌟','✨','🎈','🎁','👑','💎','🦄','🌈','🍭'];
+  let i = 0;
+  const el = document.getElementById('win-emojis');
+  setInterval(() => {
+    el.textContent = emojis[i%emojis.length] + emojis[(i+1)%emojis.length] + emojis[(i+2)%emojis.length];
+    i++;
+  }, 600);
+}
+function playAgain() { if (lastId) startHunt(lastId); else go('s-home'); }
+function genCode() {
+  const code = String(Math.floor(1000 + Math.random() * 9000));
+  document.getElementById('clue-code').value = code;
+  document.getElementById('code-hint').style.display = 'block';
+  document.getElementById('code-hint').textContent = '🔒 Code is ' + code + ' — write it down and give to the kid after they find the spot!';
+}
+
+function confetti() {
+  document.querySelectorAll('.confpiece').forEach(e => e.remove());
+  const colors = ['#ffd700','#ff6b6b','#4fc3f7','#69f0ae','#ff80ab','#ea80fc','#fff176','#ff9800','#e040fb','#00e5ff'];
+  for (let i=0;i<120;i++) {
+    const p = document.createElement('div'); p.className = 'confpiece';
+    const sz = 6+Math.random()*12;
+    const isCircle = Math.random() > 0.4;
+    const isLong = !isCircle && Math.random() > 0.5;
+    p.style.cssText = `left:${Math.random()*100}%;top:${-20 - Math.random()*80}px;width:${isLong?4:sz}px;height:${isLong?sz*2:sz}px;background:${colors[Math.floor(Math.random()*colors.length)]};border-radius:${isCircle?'50%':'2px'};animation-duration:${1.2+Math.random()*2.8}s;animation-delay:${Math.random()*1.5}s;opacity:${0.7+Math.random()*.3}`;
+    document.body.appendChild(p);
+  }
+}
+</script>
+</body>
+</html>
