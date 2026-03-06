@@ -1,6 +1,7 @@
 # 🗺️ Treasure Hunt App
 
 A fun treasure hunt game for kids to play at home! Parents create clue hunts with drawings and secret codes, and kids solve them one by one to find the treasure.
+Give it at try at https://lucysee.github.io/treasureHunt/
 
 ## 🎮 How It Works
 
