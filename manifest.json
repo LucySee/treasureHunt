@@ -2,14 +2,18 @@
   "name": "Treasure Hunt",
   "short_name": "TreasureHunt",
   "description": "A fun treasure hunt app for kids at home — create clues, draw on photos, and go on an adventure!",
-  "start_url": "/index.html",
+  "start_url": "https://lucysee.github.io/treasureHunt/",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#1a6b2f",
   "theme_color": "#2d8e47",
   "lang": "en",
   "scope": "/",
-  "categories": ["games", "kids", "education"],
+  "categories": [
+    "games",
+    "kids",
+    "education"
+  ],
   "icons": [
     {
       "src": "icons/icon-72x72.png",
@@ -109,6 +113,5 @@
       ]
     }
   ],
-  "related_applications": [],
   "prefer_related_applications": false
 }
