@@ -1,0 +1,114 @@
+{
+  "name": "Treasure Hunt",
+  "short_name": "TreasureHunt",
+  "description": "A fun treasure hunt app for kids at home — create clues, draw on photos, and go on an adventure!",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#1a6b2f",
+  "theme_color": "#2d8e47",
+  "lang": "en",
+  "scope": "/",
+  "categories": ["games", "kids", "education"],
+  "icons": [
+    {
+      "src": "icons/icon-72x72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-96x96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-128x128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-144x144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-152x152.png",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-384x384.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "screenshots/home.png",
+      "sizes": "390x844",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Home Screen"
+    },
+    {
+      "src": "screenshots/create-clue.png",
+      "sizes": "390x844",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Create a Clue"
+    },
+    {
+      "src": "screenshots/hunt.png",
+      "sizes": "390x844",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Play the Hunt"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Create Hunt",
+      "short_name": "Create",
+      "description": "Start creating a new treasure hunt",
+      "url": "/index.html?screen=create",
+      "icons": [
+        {
+          "src": "icons/shortcut-create.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Start Hunt",
+      "short_name": "Play",
+      "description": "Begin playing a treasure hunt",
+      "url": "/index.html?screen=play",
+      "icons": [
+        {
+          "src": "icons/shortcut-play.png",
+          "sizes": "96x96"
+        }
+      ]
+    }
+  ],
+  "related_applications": [],
+  "prefer_related_applications": false
+}
