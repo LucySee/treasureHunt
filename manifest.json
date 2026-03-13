@@ -9,7 +9,11 @@
   "background_color": "#1a6b2f",
   "theme_color": "#2d8e47",
   "lang": "en",
-  "categories": ["games", "kids", "education"],
+  "categories": [
+    "games",
+    "kids",
+    "education"
+  ],
   "icons": [
     {
       "src": "https://lucysee.github.io/treasureHunt/Icons/icon-72x72.png",
