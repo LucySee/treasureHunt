@@ -1,8 +1,11 @@
 [{
-      "relation": ["delegate_permission/common.handle_all_urls"],
-      "target": {
-        "namespace": "android_app",
-        "package_name": "io.github.lucysee.twa",
-        "sha256_cert_fingerprints": ["D1:7E:9B:E9:35:67:67:14:32:3C:BB:7D:3C:19:3D:DA:2F:AF:21:47:08:53:6F:D3:D9:48:AA:BA:65:F2:11:D6"]
-      }
-    }]
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "io.github.lucysee.twa",
+    "sha256_cert_fingerprints": [
+      "D1:7E:9B:E9:35:67:67:14:32:3C:BB:7D:3C:19:3D:DA:2F:AF:21:47:08:53:6F:D3:D9:48:AA:BA:65:F2:11:D6",
+      "F8:C9:7C:73:34:89:DC:16:1E:64:32:8B:78:C6:6A:C6:52:30:64:40:41:12:E2:90:AC:F9:B8:48:F6:EC:9E:F1"
+    ]
+  }
+}]
