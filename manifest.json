@@ -1,6 +1,7 @@
 {
   "name": "Treasure Hunt",
   "short_name": "TreasureHunt",
+  "id": "/treasureHunt/", 
   "description": "A fun treasure hunt app for kids",
   "start_url": "https://lucysee.github.io/treasureHunt/index.html",
   "scope": "https://lucysee.github.io/treasureHunt/",
