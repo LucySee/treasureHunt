@@ -6,6 +6,7 @@
   "start_url": "https://lucysee.github.io/treasureHunt/index.html",
   "scope": "https://lucysee.github.io/treasureHunt/",
   "display": "standalone",
+  "prefer_related_applications": true, 
   "orientation": "portrait",
   "background_color": "#1a6b2f",
   "theme_color": "#2d8e47",
