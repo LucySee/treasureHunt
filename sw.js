@@ -1,8 +1,8 @@
-const CACHE_NAME = 'treasurehunt-v1';
+const CACHE_NAME = 'treasurehunt-v2';
 const ASSETS = [
-  '/',
-  '/index.html',
-  '/manifest.json'
+  '/treasureHunt/',
+  '/treasureHunt/index.html',
+  '/treasureHunt/manifest.json'
 ];
 
 self.addEventListener('install', e => {

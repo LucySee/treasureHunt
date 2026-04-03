@@ -424,5 +424,14 @@ function playAgain(){if(lastId)startHunt(lastId);else go('s-home');}
 function genCode(){document.getElementById('clue-code').value=String(Math.floor(1000+Math.random()*9000));}
 function confetti(){document.querySelectorAll('.confpiece').forEach(e=>e.remove());const colors=['#ffd700','#ff6b6b','#4fc3f7','#69f0ae','#ff80ab','#ea80fc','#fff176','#ff9800','#e040fb','#00e5ff'];for(let i=0;i<120;i++){const p=document.createElement('div');p.className='confpiece';const sz=6+Math.random()*12,isCircle=Math.random()>.4,isLong=!isCircle&&Math.random()>.5;p.style.cssText=`left:${Math.random()*100}%;top:${-20-Math.random()*80}px;width:${isLong?4:sz}px;height:${isLong?sz*2:sz}px;background:${colors[Math.floor(Math.random()*colors.length)]};border-radius:${isCircle?'50%':'2px'};animation-duration:${1.2+Math.random()*2.8}s;animation-delay:${Math.random()*1.5}s;opacity:${0.7+Math.random()*.3}`;document.body.appendChild(p);}}
 </script>
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/treasureHunt/sw.js')
+      .then(reg => console.log('SW registered:', reg.scope))
+      .catch(err => console.log('SW failed:', err));
+  });
+}
+</script>
 </body>
 </html>
